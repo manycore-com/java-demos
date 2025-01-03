@@ -1,7 +1,5 @@
-package io.manycore;
+package io.manycore.fractals;
 
-
-import io.manycore.fractals.MandelbrotSetToFile;
 
 public class Main {
     public static void main(String[] args) {

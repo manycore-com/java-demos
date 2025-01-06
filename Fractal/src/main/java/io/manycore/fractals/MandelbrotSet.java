@@ -5,23 +5,24 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class MandelbrotSetToFile {
+public class MandelbrotSet {
 
     private final int width;
     private final int height;
-    private final int MAX_ITER = 570;
-    private final double ZOOM = 2500;
+    private int maxIter = 570;
+    private double zoom = 2500;
     private BufferedImage image;
 
-    public MandelbrotSetToFile(int width, int height) {
+    public MandelbrotSet(int width, int height, double zoom, int max_iter) {
         this.width = width;
         this.height = height;
+        this.zoom = zoom;
+        this.maxIter = max_iter;
+        this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
-    public void action() {
-        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        drawFractal();
-        saveImage();
+    public BufferedImage getImage() {
+        return image;
     }
 
     public void drawFractal() {
@@ -29,9 +30,9 @@ public class MandelbrotSetToFile {
             for (int x = 0; x < width; x++) {
                 double zx = 0;
                 double zy = 0;
-                double cX = (x - 400) / ZOOM;
-                double cY = (y - 300) / ZOOM;
-                int iter = MAX_ITER;
+                double cX = (x - (width / 2)) / zoom;
+                double cY = (y - (height / 2)) / zoom;
+                int iter = maxIter;
                 while (zx * zx + zy * zy < 4 && iter > 0) {
                     double tmp = zx * zx - zy * zy + cX;
                     zy = 2.0 * zx * zy + cY;
@@ -43,9 +44,9 @@ public class MandelbrotSetToFile {
         }
     }
 
-    private void saveImage() {
+    public void saveImage(String filename) {
         try {
-            File outputfile = new File("mandelbrot.bmp");
+            File outputfile = new File(filename);
             ImageIO.write(image, "bmp", outputfile);
             System.out.println("Image successfully saved: " + outputfile.getAbsolutePath());
         } catch (IOException e) {

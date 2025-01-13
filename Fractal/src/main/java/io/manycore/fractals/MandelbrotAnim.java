@@ -1,15 +1,28 @@
 package io.manycore.fractals;
 
+import io.manycore.annotations.Sequential;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 
 public class MandelbrotAnim extends JFrame {
 
     private final int width;
     private final int height;
 
+
     private final AnimationPanel animationPanel;
+
+    @Sequential
+    private long lastTime = System.nanoTime();
+
+    @Sequential
+    private int frameCount = 0;
+
+    @Sequential
+    private int currentFps = 0;
 
     public MandelbrotAnim(int width, int height) {
         this.width = width;
@@ -25,24 +38,29 @@ public class MandelbrotAnim extends JFrame {
         setVisible(true);
 
     }
-
     public void animate(int numberFramesToAnimate) {
         double zoom = 100;  // org example: 2500
         int maxIter = 570;  // org example: 570
 
         for (int i = 0; i < numberFramesToAnimate; i++) {
             MandelbrotSet m = new MandelbrotSet(width, height, zoom, maxIter);
-            long start = System.currentTimeMillis();
-            m.drawFractal();
-            long end = System.currentTimeMillis();
-            long tot = end - start;
-            if (0 == tot) {
-                tot = 1;
-            }
-            long fps = 1000 / tot;
 
+            // Start timing in nanoseconds
+            long start = System.nanoTime();
+            m.drawFractal(); // Ensure this blocks until fully done
+            long end = System.nanoTime();
+
+            // Convert the elapsed time from ns to ms
+            double tpfMs = (end - start) / 1_000_000.0;
+
+            // Rolling FPS over one second
+            int fps = computeFps();
+
+            // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
-            setFrameText(bi, i, (int)zoom, (int)fps);
+            setFrameText(bi, i, (int) zoom, tpfMs, fps);
+
+            // Update the panel
             this.animationPanel.setBufferedImage(bi);
             this.animationPanel.repaint();
 
@@ -50,11 +68,38 @@ public class MandelbrotAnim extends JFrame {
         }
     }
 
-    private void setFrameText(BufferedImage bi, int i, int zoom, int fps) {
+    @Sequential
+    private int computeFps() {
+        long now = System.nanoTime();
+        frameCount++;
+
+        // 1 second = 1_000_000_000 nanoseconds
+        if (now - lastTime >= 1_000_000_000) {
+            currentFps = frameCount;
+            frameCount = 0;
+            lastTime = now;
+        }
+
+        return currentFps;
+    }
+
+    /**
+     * Renders the time-per-frame (ms) and FPS onto the image.
+     */
+    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs, int fps) {
         Graphics2D g2d = bi.createGraphics();
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
-        String text = "Frame: " + i + "  Zoom: " + zoom + "  Fps: " + fps;
+
+        // Format the time-per-frame nicely to 2 decimal places
+        String tpfString = String.format("%.2f", tpfMs);
+
+        String text = "Frame: " + frameIndex
+                + "  Zoom: " + zoom
+                + "  Time per frame (ms): " + tpfString
+                + "  FPS : " + fps;
+
         g2d.drawString(text, 10, 40);
+        g2d.dispose();  // Clean up graphics context
     }
 
 }

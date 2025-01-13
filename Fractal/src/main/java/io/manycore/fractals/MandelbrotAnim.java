@@ -39,7 +39,7 @@ public class MandelbrotAnim extends JFrame {
             if (0 == tot) {
                 tot = 1;
             }
-            long fps = 1000 / (end - start);
+            long fps = 1000 / tot;
 
             BufferedImage bi = m.getImage();
             setFrameText(bi, i, (int)zoom, (int)fps);

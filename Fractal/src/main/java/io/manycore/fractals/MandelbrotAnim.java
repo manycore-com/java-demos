@@ -15,13 +15,8 @@ public class MandelbrotAnim extends JFrame {
 
     private final AnimationPanel animationPanel;
 
-    @Sequential
     private long lastTime = System.nanoTime();
-
-    @Sequential
     private int frameCount = 0;
-
-    @Sequential
     private int currentFps = 0;
 
     public MandelbrotAnim(int width, int height) {

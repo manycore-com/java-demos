@@ -1,7 +1,5 @@
 package io.manycore.fractals;
 
-import io.manycore.annotations.Sequential;
-
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -63,7 +61,6 @@ public class MandelbrotAnim extends JFrame {
         }
     }
 
-    @Sequential
     private int computeFps() {
         long now = System.nanoTime();
         frameCount++;

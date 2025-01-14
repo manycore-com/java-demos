@@ -15,7 +15,7 @@ public class MandelbrotAnim extends JFrame {
 
     private long lastTime = System.nanoTime();
     private int frameCount = 0;
-    private int currentFps = 0;
+    private int currentFps = -1;
 
     public MandelbrotAnim(int width, int height) {
         this.width = width;
@@ -66,7 +66,7 @@ public class MandelbrotAnim extends JFrame {
         frameCount++;
 
         // 1 second = 1_000_000_000 nanoseconds
-        if (now - lastTime >= 1_000_000_000) {
+        if ((now - lastTime) >= 1_000_000_000) {
             currentFps = frameCount;
             frameCount = 0;
             lastTime = now;

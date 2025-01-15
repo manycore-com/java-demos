@@ -47,11 +47,11 @@ public class MandelbrotAnim extends JFrame {
             double tpfMs = (end - start) / 1_000_000.0;
 
             // Rolling FPS over one second
-            int fps = computeFps();
+            computeFps();
 
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
-            setFrameText(bi, i, (int) zoom, tpfMs, fps);
+            setFrameText(bi, i, (int) zoom, tpfMs);
 
             // Update the panel
             this.animationPanel.setBufferedImage(bi);
@@ -61,7 +61,7 @@ public class MandelbrotAnim extends JFrame {
         }
     }
 
-    private int computeFps() {
+    private void computeFps() {
         long now = System.nanoTime();
         frameCount++;
 
@@ -71,14 +71,12 @@ public class MandelbrotAnim extends JFrame {
             frameCount = 0;
             lastTime = now;
         }
-
-        return currentFps;
     }
 
     /**
      * Renders the time-per-frame (ms) and FPS onto the image.
      */
-    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs, int fps) {
+    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs) {
         Graphics2D g2d = bi.createGraphics();
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -88,7 +86,7 @@ public class MandelbrotAnim extends JFrame {
         String text = "Frame: " + frameIndex
                 + "  Zoom: " + zoom
                 + "  Time per frame (ms): " + tpfString
-                + "  FPS : " + fps;
+                + "  FPS : " + currentFps;
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

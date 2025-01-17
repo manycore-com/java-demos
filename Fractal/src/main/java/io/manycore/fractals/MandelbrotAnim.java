@@ -56,6 +56,8 @@ public class MandelbrotAnim extends JFrame {
             // Update the panel
             this.animationPanel.setBufferedImage(bi);
             this.animationPanel.repaint();
+            this.animationPanel.setBufferedImage(bi);
+            this.animationPanel.repaint();
 
             zoom++;
         }
@@ -83,10 +85,7 @@ public class MandelbrotAnim extends JFrame {
         // Format the time-per-frame nicely to 2 decimal places
         String tpfString = String.format("%.2f", tpfMs);
 
-        String text = "Frame: " + frameIndex
-                + "  Zoom: " + zoom
-                + "  Time per frame (ms): " + tpfString
-                + "  FPS : " + currentFps;
+        String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}  FPS : \{currentFps}";
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

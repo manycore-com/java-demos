@@ -56,9 +56,6 @@ public class MandelbrotAnim extends JFrame {
             // Update the panel
             this.animationPanel.setBufferedImage(bi);
             this.animationPanel.repaint();
-            this.animationPanel.setBufferedImage(bi);
-            this.animationPanel.repaint();
-
             zoom++;
         }
     }

@@ -47,12 +47,14 @@ public class MandelbrotAnim extends JFrame {
             double tpfMs = (end - start) / 1_000_000.0;
 
             // Rolling FPS over one second
-            computeFps();
 
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
             setFrameText(bi, i, (int) zoom, tpfMs);
 
+            // Part un//
+
+            computeFps();
             // Update the panel
             this.animationPanel.setBufferedImage(bi);
             this.animationPanel.repaint();
@@ -65,7 +67,7 @@ public class MandelbrotAnim extends JFrame {
         frameCount++;
 
         // 1 second = 1_000_000_000 nanoseconds
-        if ((now - lastTime) >= 1_000_000_000) {
+        if ((now - lastTime) >= 1_000_000_000) { 
             currentFps = frameCount;
             frameCount = 0;
             lastTime = now;

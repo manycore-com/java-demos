@@ -13,9 +13,6 @@ public class MandelbrotAnim extends JFrame {
 
     private final AnimationPanel animationPanel;
 
-    private long lastTime = System.nanoTime();
-    private int frameCount = 0;
-    private int currentFps = -1;
 
     public MandelbrotAnim(int width, int height) {
         this.width = width;
@@ -34,8 +31,20 @@ public class MandelbrotAnim extends JFrame {
     public void animate(int numberFramesToAnimate) {
         double zoom = 100;  // org example: 2500
         int maxIter = 570;  // org example: 570
+        int currentFps = 0;
+        int frameCount = 0;
+        long lastTime = System.nanoTime();
 
         for (int i = 0; i < numberFramesToAnimate; i++) {
+            long now = System.nanoTime();
+            frameCount++;
+
+            // 1 second = 1_000_000_000 nanoseconds
+            if ((now - lastTime) >= 1_000_000_000) {
+                currentFps = frameCount;
+                frameCount = 0;
+                lastTime = now;
+            }
             MandelbrotSet m = new MandelbrotSet(width, height, zoom, maxIter);
 
             // Start timing in nanoseconds
@@ -50,11 +59,10 @@ public class MandelbrotAnim extends JFrame {
 
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
-            setFrameText(bi, i, (int) zoom, tpfMs);
+            setFrameText(bi, i, (int) zoom, tpfMs, currentFps);
 
             // Part un//
 
-            computeFps();
             // Update the panel
             this.animationPanel.setBufferedImage(bi);
             this.animationPanel.repaint();
@@ -62,22 +70,11 @@ public class MandelbrotAnim extends JFrame {
         }
     }
 
-    private void computeFps() {
-        long now = System.nanoTime();
-        frameCount++;
-
-        // 1 second = 1_000_000_000 nanoseconds
-        if ((now - lastTime) >= 1_000_000_000) { 
-            currentFps = frameCount;
-            frameCount = 0;
-            lastTime = now;
-        }
-    }
 
     /**
      * Renders the time-per-frame (ms) and FPS onto the image.
      */
-    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs) {
+    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs, int currentFps) {
         Graphics2D g2d = bi.createGraphics();
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
 

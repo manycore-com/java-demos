@@ -31,20 +31,8 @@ public class MandelbrotAnim extends JFrame {
     public void animate(int numberFramesToAnimate) {
         double zoom = 100;  // org example: 2500
         int maxIter = 570;  // org example: 570
-        int currentFps = 0;
-        int frameCount = 0;
-        long lastTime = System.nanoTime();
 
         for (int i = 0; i < numberFramesToAnimate; i++) {
-            long now = System.nanoTime();
-            frameCount++;
-
-            // 1 second = 1_000_000_000 nanoseconds
-            if ((now - lastTime) >= 1_000_000_000) {
-                currentFps = frameCount;
-                frameCount = 0;
-                lastTime = now;
-            }
             MandelbrotSet m = new MandelbrotSet(width, height, zoom, maxIter);
 
             // Start timing in nanoseconds
@@ -59,7 +47,7 @@ public class MandelbrotAnim extends JFrame {
 
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
-            setFrameText(bi, i, (int) zoom, tpfMs, currentFps);
+            setFrameText(bi, i, (int) zoom, tpfMs);
 
             // Part un//
 
@@ -74,14 +62,14 @@ public class MandelbrotAnim extends JFrame {
     /**
      * Renders the time-per-frame (ms) and FPS onto the image.
      */
-    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs, int currentFps) {
+    private void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs) {
         Graphics2D g2d = bi.createGraphics();
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
 
         // Format the time-per-frame nicely to 2 decimal places
         String tpfString = String.format("%.2f", tpfMs);
 
-        String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}  FPS : \{currentFps}";
+        String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}";
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

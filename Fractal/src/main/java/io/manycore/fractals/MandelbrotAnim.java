@@ -1,5 +1,7 @@
 package io.manycore.fractals;
 
+import io.manycore.magicator.Debug;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,6 +30,12 @@ public class MandelbrotAnim extends JFrame {
         setVisible(true);
 
     }
+
+    @Debug
+    public void demo() {
+        System.out.println("Demo method called");
+    }
+
     public void animate(int numberFramesToAnimate) {
         double zoom = 100;  // org example: 2500
         int maxIter = 570;  // org example: 570

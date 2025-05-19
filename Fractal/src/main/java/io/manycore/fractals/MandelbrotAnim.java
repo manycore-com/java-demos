@@ -56,6 +56,7 @@ public class MandelbrotAnim extends JFrame {
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
             setFrameText(bi, i, (int) zoom, tpfMs);
+            demo();
 
             // Part un//
 

@@ -70,7 +70,7 @@ public class MandelbrotAnim extends JFrame {
 
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
-            //setFrameText(bi, i, (int) zoom, tpfMs);
+            setFrameText(bi, i, (int) zoom, tpfMs);
             //computeFps();
             // Part un//
 
@@ -85,7 +85,6 @@ public class MandelbrotAnim extends JFrame {
     /**
      * Renders the time-per-frame (ms) and FPS onto the image.
      */
-    @Debug
     public void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs) {
         Graphics2D g2d = bi.createGraphics();
         g2d.setFont(new Font("Arial", Font.BOLD, 30));

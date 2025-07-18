@@ -85,7 +85,7 @@ public class MandelbrotAnim extends JFrame {
     /**
      * Renders the time-per-frame (ms) and FPS onto the image.
      */
-    public void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs) {
+    public static void setFrameText(BufferedImage bi, int frameIndex, int zoom, double tpfMs) {
         Graphics2D g2d = bi.createGraphics();
         g2d.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -93,7 +93,7 @@ public class MandelbrotAnim extends JFrame {
         String tpfString = String.format("%.2f", tpfMs);
 
         //String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}  FPS : \{currentFps}";
-        String text = "eee";
+        String text =  "Frame:" + frameIndex + " Zoom: "+ zoom + "  Time per frame (ms): " + tpfString + " FPS : " + 2000; //currentFps;
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

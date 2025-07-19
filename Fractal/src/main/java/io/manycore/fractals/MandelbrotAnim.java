@@ -11,9 +11,9 @@ public class MandelbrotAnim extends JFrame {
 
     private final int width;
     private final int height;
-    int currentFps = 1;
-    int frameCount = 0;
-    long lastTime = System.nanoTime();
+    public static int currentFps = 1;
+    public static int frameCount = 0;
+    public static long lastTime = System.nanoTime();
 
     private final AnimationPanel animationPanel;
 
@@ -34,8 +34,8 @@ public class MandelbrotAnim extends JFrame {
     }
 
     @Debug
-    public void computeFps() {
-        /*long now = System.nanoTime();
+    public static void computeFps() {
+        long now = System.nanoTime();
         frameCount++;
 
         // 1 second = 1_000_000_000 nanoseconds
@@ -43,8 +43,7 @@ public class MandelbrotAnim extends JFrame {
             currentFps = frameCount;
             frameCount = 0;
             lastTime = now;
-        }*/
-        System.out.println("Current FPS: " + 1);
+        }
     }
 
 
@@ -71,7 +70,7 @@ public class MandelbrotAnim extends JFrame {
 
             // Get the rendered image and draw info text
             BufferedImage bi = m.getImage();
-            //setFrameText(bi, i, (int) zoom, tpfMs, currentFps);
+            setFrameText(bi, i, (int) zoom, tpfMs, currentFps);
             computeFps();
             // Part un//(
 

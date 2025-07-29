@@ -14,6 +14,7 @@ public class MandelbrotAnim extends JFrame {
     public static int currentFps = 1;
     public static int frameCount = 0;
     public static long lastTime = System.nanoTime();
+    public static int max = 0;
 
     private final AnimationPanel animationPanel;
 
@@ -43,6 +44,9 @@ public class MandelbrotAnim extends JFrame {
             currentFps = frameCount;
             frameCount = 0;
             lastTime = now;
+            if (currentFps > max) {
+                max = currentFps;
+            }
         }
     }
 
@@ -93,7 +97,7 @@ public class MandelbrotAnim extends JFrame {
         String tpfString = String.format("%.2f", tpfMs);
 
         //String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}  FPS : \{currentFps}";
-        String text =  "Frame:" + frameIndex + " Zoom: "+ zoom + "  Time per frame (ms): " + tpfString + " FPS : " + currentFps;
+        String text =  "Frame:" + frameIndex + " Zoom: "+ zoom + "  Time per frame (ms): " + tpfString + " FPS : " + currentFps + " Max FPS: " + max;
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

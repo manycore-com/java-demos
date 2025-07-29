@@ -101,7 +101,7 @@ public class MandelbrotAnim extends JFrame {
         String avgString = String.format("%.1f", avg);
 
         //String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}  FPS : \{currentFps}";
-        String text =  "Frame:" + frameIndex + " Zoom: "+ zoom + "  Time per frame (ms): " + tpfString + " FPS : " + currentFps + " avg FPS: " + avgString;
+        String text =  "Frame:" + frameIndex + "; average FPS: " + avgString;
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

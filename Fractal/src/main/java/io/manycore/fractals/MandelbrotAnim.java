@@ -12,9 +12,11 @@ public class MandelbrotAnim extends JFrame {
     private final int width;
     private final int height;
     public static int currentFps = 1;
+    public static int frameToAnimate = -1;
+
     public static int frameCount = 0;
     public static long lastTime = System.nanoTime();
-    public static int max = 0;
+    public final static long firstTime = System.nanoTime();
 
     private final AnimationPanel animationPanel;
 
@@ -44,14 +46,13 @@ public class MandelbrotAnim extends JFrame {
             currentFps = frameCount;
             frameCount = 0;
             lastTime = now;
-            if (currentFps > max) {
-                max = currentFps;
-            }
+
         }
     }
 
 
     public void animate(int numberFramesToAnimate) {
+        frameToAnimate = numberFramesToAnimate;
 
         double zoom = 100;  // org example: 2500
         int maxIter = 570;  // org example: 570
@@ -96,8 +97,11 @@ public class MandelbrotAnim extends JFrame {
         // Format the time-per-frame nicely to 2 decimal places
         String tpfString = String.format("%.2f", tpfMs);
 
+        double avg = frameToAnimate/ ((lastTime - firstTime)/1_000_000_000.0) ; // Average time in ms
+        String avgString = String.format("%.1f", avg);
+
         //String text = STR."Frame: \{frameIndex}  Zoom: \{zoom}  Time per frame (ms): \{tpfString}  FPS : \{currentFps}";
-        String text =  "Frame:" + frameIndex + " Zoom: "+ zoom + "  Time per frame (ms): " + tpfString + " FPS : " + currentFps + " Max FPS: " + max;
+        String text =  "Frame:" + frameIndex + " Zoom: "+ zoom + "  Time per frame (ms): " + tpfString + " FPS : " + currentFps + " avg FPS: " + avgString;
 
         g2d.drawString(text, 10, 40);
         g2d.dispose();  // Clean up graphics context

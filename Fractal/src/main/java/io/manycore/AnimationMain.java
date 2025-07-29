@@ -9,7 +9,7 @@ public class AnimationMain {
         }
 
         MandelbrotAnim m = new MandelbrotAnim(1920, 1080);
-        m.animate(1000);
+        m.animate(100);
         Thread.sleep(5000);
     }
 }
